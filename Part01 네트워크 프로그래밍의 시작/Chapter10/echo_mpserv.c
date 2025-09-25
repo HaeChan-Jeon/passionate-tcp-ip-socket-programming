@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <wait.h>
+#include <sys/wait.h>
 #include <signal.h>
 #include <sys/types.h>
 #include <arpa/inet.h>
@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
         if (pid == 0)
         {
             close(serv_sock);
-            while(str_len = read(clnt_sock, buf, BUF_SIZE) != 0)
+            while((str_len = read(clnt_sock, buf, BUF_SIZE)) != 0)
                 write(clnt_sock, buf, str_len);
             close(clnt_sock);
             puts("client disconnected...");
