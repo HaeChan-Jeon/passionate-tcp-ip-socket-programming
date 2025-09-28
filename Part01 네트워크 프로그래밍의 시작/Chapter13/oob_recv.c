@@ -1,4 +1,9 @@
 #define _XOPEN_SOURCE 200
+
+#ifndef F_SETOWN
+#define F_SETOWN 8
+#endif
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -44,7 +49,7 @@ int main(int argc, char *argv[])
     serv_adr_sz = sizeof(serv_adr);
     recv_sock = accept(acpt_sock, (struct sockaddr*) &serv_adr, &serv_adr_sz);
 
-    fcntl(recv_sock, __F_SETOWN, getpid());
+    fcntl(recv_sock, F_SETOWN, getpid());
     state = sigaction(SIGURG, &act, 0);
 
     while ((str_len = recv(recv_sock, buf, sizeof(buf), 0)) != 0)
